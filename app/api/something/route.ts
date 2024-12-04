@@ -71,7 +71,7 @@ export async function POST(request: Request) {
 }
 
 
-export function verifyToken(token: string): JwtPayload | NextResponse {
+function verifyToken(token: string): JwtPayload | NextResponse {
 
     try {
 
