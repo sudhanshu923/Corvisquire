@@ -7,37 +7,6 @@ import { Users } from "@/models/userModel";
 
 const JWT_SECRET = process.env.JWT_SECRET as string
 
-export function verifyToken(token: string): JwtPayload | NextResponse {
-
-    try {
-
-        return jwt.verify(token, JWT_SECRET) as JwtPayload;
-
-    } catch (error) {
-
-        if (error instanceof jwt.TokenExpiredError) {
-            return NextResponse.json(
-                { message: "Your session has expired. Please log in again to continue." },
-                { status: 401,statusText:"Unauthorized"}
-            );
-        }
-
-        if (error instanceof jwt.JsonWebTokenError) {
-            return NextResponse.json(
-                { message: "Invalid authentication token. Please log in again." },
-                { status: 401,statusText:"Unauthorized" }
-            );
-        }
-
-        return NextResponse.json(
-            { message: "Something went wrong on our end. Please try again later." },
-            { status: 500, statusText: "Internal Server Error" }
-        );
-
-    }
-
-}
-
 export async function POST(request: Request) {
 
     try {
@@ -91,6 +60,38 @@ export async function POST(request: Request) {
         );
 
     } catch (error) {
+
+        return NextResponse.json(
+            { message: "Something went wrong on our end. Please try again later." },
+            { status: 500, statusText: "Internal Server Error" }
+        );
+
+    }
+
+}
+
+
+export function verifyToken(token: string): JwtPayload | NextResponse {
+
+    try {
+
+        return jwt.verify(token, JWT_SECRET) as JwtPayload;
+
+    } catch (error) {
+
+        if (error instanceof jwt.TokenExpiredError) {
+            return NextResponse.json(
+                { message: "Your session has expired. Please log in again to continue." },
+                { status: 401,statusText:"Unauthorized"}
+            );
+        }
+
+        if (error instanceof jwt.JsonWebTokenError) {
+            return NextResponse.json(
+                { message: "Invalid authentication token. Please log in again." },
+                { status: 401,statusText:"Unauthorized" }
+            );
+        }
 
         return NextResponse.json(
             { message: "Something went wrong on our end. Please try again later." },
