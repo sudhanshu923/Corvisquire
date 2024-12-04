@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import { dbConnect } from "@/connections/dbConnect";
 import { Users } from "@/models/userModel";
 
-export async function GET(request: Request, { params }: { params: { _id: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ _id: string }> }) {
 
     try {
 
